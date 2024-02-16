@@ -106,5 +106,4 @@ public class KcityController extends HttpServlet {
 			rd.forward(request, response);
 		}
 	}
-
 }
