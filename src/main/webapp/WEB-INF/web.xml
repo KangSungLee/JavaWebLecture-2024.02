@@ -129,4 +129,14 @@
     <servlet-name>Ex05_Update</servlet-name>
     <url-pattern>/Ex05_Update</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>KcityController</display-name>
+    <servlet-name>KcityController</servlet-name>
+    <servlet-class>ch07_dao.kcity.KcityController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>KcityController</servlet-name>
+    <url-pattern>/KcityController</url-pattern>
+  </servlet-mapping>
 </web-app>

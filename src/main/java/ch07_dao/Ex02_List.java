@@ -24,7 +24,7 @@ public class Ex02_List extends HttpServlet {
 		
 		CityDao cDao = new CityDao();
 		List<City> list = cDao.getCityList(district, num, offset);
-		list.forEach(x -> System.out.println(x));
+//		list.forEach(x -> System.out.println(x));
 
 //		RequestDispatcher rd = request.getRequestDispatcher("/ch07/list.jsp");
 //		request.setAttribute("list", list);
