@@ -12,13 +12,12 @@ import java.util.List;
 
 import ch07_dao.City;
 
-@WebServlet({ "/ch07/kpop/list", "/ch07/kpop/insertArtist", "/ch07/kpop/insertSong", 
-	"/ch07/kpop/updateArtist", "/ch07/kpop/updateSong", "/ch07/kpop/deleteArtist",
-	"/ch07/kpop/deleteSong"})
+@WebServlet({ "/ch07/kpop/list", "/ch07/kpop/insertArtist", "/ch07/kpop/insertSong", "/ch07/kpop/updateArtist",
+		"/ch07/kpop/updateSong", "/ch07/kpop/deleteArtist", "/ch07/kpop/deleteSong" })
 public class KpopController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private KpopDaoImpl kDao = new KpopDaoImpl();
-	
+
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String requestUri = request.getRequestURI();
@@ -36,7 +35,7 @@ public class KpopController extends HttpServlet {
 		String lyrics = null;
 		int aid = 0;
 		int sid = 0;
-		
+
 		switch (action) {
 		case "list":
 			List<Kpop> list = kDao.getKpopList();
@@ -53,7 +52,7 @@ public class KpopController extends HttpServlet {
 				hitSongId_ = request.getParameter("hitSongId");
 				hitSongId = (hitSongId_ == null || hitSongId_.equals("")) ? 200 : Integer.parseInt(hitSongId_);
 				debut = request.getParameter("debut");
-				
+
 				artist = new Artist(name, LocalDate.parse(debut), hitSongId);
 				kDao.isertArtist(artist);
 
@@ -68,7 +67,7 @@ public class KpopController extends HttpServlet {
 			} else {
 				title = request.getParameter("title");
 				lyrics = request.getParameter("lyrics");
-				
+
 				song = new Song(title, lyrics);
 				kDao.isertSong(song);
 
@@ -88,7 +87,7 @@ public class KpopController extends HttpServlet {
 				name = request.getParameter("name");
 				debut = request.getParameter("debut");
 				hitSongId = Integer.parseInt(request.getParameter("hitSongId"));
-				
+
 				artist = new Artist(aid, name, LocalDate.parse(debut), hitSongId);
 				kDao.updateArtist(artist);
 
@@ -107,7 +106,7 @@ public class KpopController extends HttpServlet {
 				sid = Integer.parseInt(request.getParameter("sid"));
 				title = request.getParameter("title");
 				lyrics = request.getParameter("lyrics");
-				
+
 				song = new Song(sid, title, lyrics);
 				kDao.updateSong(song);
 
@@ -115,20 +114,21 @@ public class KpopController extends HttpServlet {
 //						+ "?district=" + district + "&num=30&offset=0");
 			}
 			break;
-			
+
 		case "deleteArtist":
 			aid = Integer.parseInt(request.getParameter("aid"));
 			kDao.deleteArtist(aid);
 			response.sendRedirect("/jw/ch07/kpop/list");
 //					+ "?district=Kyonggi&num=30&offset=0");
 			break;
-			
+
 		case "deleteSong":
 			sid = Integer.parseInt(request.getParameter("sid"));
 			kDao.deleteSong(sid);
 			response.sendRedirect("/jw/ch07/kpop/list");
 //				+ "?district=Kyonggi&num=30&offset=0");
 			break;
+		default:
 		}
 	}
 }
