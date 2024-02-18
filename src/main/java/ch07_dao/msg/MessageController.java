@@ -11,8 +11,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import ch07_dao.kpop.KpopDao;
+
 @WebServlet({ "/ch07/msg/list", "/ch07/msg/insert", "/ch07/msg/update",
-	"/ch07/msg/delete", "/ch07/msg/listWriter"})
+	"/ch07/msg/delete", "/ch07/msg/listSearch"})
 public class MessageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MessageDao mDao = new MessageDao();
@@ -29,6 +31,8 @@ public class MessageController extends HttpServlet {
 		Message message = null;
 		int mid = 0;
 		String modTime = null;
+		String search = null;
+		String searchList = null;
 		
 		switch (action) {
 		case "list":
@@ -37,8 +41,15 @@ public class MessageController extends HttpServlet {
 			request.setAttribute("list", list);
 			rd.forward(request, response);
 			break;
-		case "listWriter":
-			
+		case "listSearch":
+			searchList = request.getParameter("searchList");
+			search = request.getParameter("search");
+			search = (search == null || search.equals("")) ? "%" : "%" + search + "%";
+			list = mDao.getMessageListBySearch(searchList, search);
+			rd = request.getRequestDispatcher("/ch07/msg/list.jsp");
+			request.setAttribute("list", list);
+			rd.forward(request, response);
+			break;
 		case "insert":
 			if (method.equals("GET")) {
 				rd = request.getRequestDispatcher("/ch07/msg/insert.jsp");
@@ -52,6 +63,7 @@ public class MessageController extends HttpServlet {
 				
 				response.sendRedirect("/jw/ch07/msg/list");
 			}
+			break;
 		case "update":
 			if (method.equals("GET")) {
 				mid = Integer.parseInt(request.getParameter("mid"));

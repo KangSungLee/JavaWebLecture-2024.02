@@ -9,7 +9,7 @@ public interface MessageService {
 	
 	List<Message> getMessageList();
 	
-	List<Message> getMessageListByWriter(String writer);
+	List<Message> getMessageListBySearch(String searchList, String search);
 	
 	void insertMessage (Message message);
 

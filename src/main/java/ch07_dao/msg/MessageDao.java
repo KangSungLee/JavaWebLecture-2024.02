@@ -55,7 +55,8 @@ public class MessageDao implements MessageService {
 		String sql ="SELECT * FROM message WHERE isDeleted=0 LIMIT 30 OFFSET 0";
 		List<Message> list = new ArrayList<>();
 		try {
-			Statement stmt = conn.createStatement();
+			Statement stmt = conn.prepareStatement(sql);
+			
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				list.add(new Message(rs.getInt(1), rs.getString(2), rs.getString(3), 
@@ -71,13 +72,13 @@ public class MessageDao implements MessageService {
 	}
 	
 	@Override
-	public List<Message> getMessageListByWriter(String writer) {
+	public List<Message> getMessageListBySearch(String searchList, String search) {
 		Connection conn = getConnection();
-		String sql = "SELECT * FROM message WHERE writer like ? and isDeleted=0 LIMIT 30 OFFSET 0";
+		String sql = "SELECT * FROM message WHERE " +  searchList + " like ? and isDeleted=0 LIMIT 30 OFFSET 0";
 		List<Message> list = new ArrayList<>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, writer);
+			pstmt.setString(1, search);
 			
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
