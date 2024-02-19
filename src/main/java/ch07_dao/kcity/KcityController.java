@@ -15,7 +15,7 @@ import ch07_dao.CityDao;
 
 //@WebServlet("/ch07/kcity/*")		// 전체를 포함한다
 @WebServlet({ "/ch07/kcity/list", "/ch07/kcity/insert", "/ch07/kcity/update", "/ch07/kcity/delete"
-	, "/ch07/kcity/wrong" })
+	, "/ch07/kcity/song" })
 public class KcityController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CityDao cDao = new CityDao();

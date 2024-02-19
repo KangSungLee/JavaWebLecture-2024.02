@@ -12,7 +12,7 @@
 </head>
 <body style="margin: 50px;">
 	<h1>노래 차트
-	<button style="margin-left: 180px;" onclick="location.href='/jw/ch07/kpop/insertArtist'">걸그룹 추가</button>
+	<button style="margin-left: 400px;" onclick="location.href='/jw/ch07/kpop/insertArtist'">걸그룹 추가</button>
 	<button onclick="location.href='/jw/ch07/kpop/insertSong'">노래 추가</button>
 	</h1>
 	<hr>
@@ -27,7 +27,7 @@
 				<td><a href="/jw/ch07/kpop/updateSong?sid=${arti.sid}">${arti.title}</a></td>
 				<td>${arti.lyrics}</td>
 				<td>
-					<a href="/jw/ch07/kpop/deleteArtist?aid=${arti.aid}">걸그룹</a>
+					<a href="/jw/ch07/kpop/deleteArtist?aid=${arti.aid}">아티스트</a>
 					<a href="/jw/ch07/kpop/deleteSong?sid=${arti.sid}">노래</a>
 				</td>
 			</tr>
