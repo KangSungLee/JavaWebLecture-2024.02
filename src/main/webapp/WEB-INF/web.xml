@@ -169,4 +169,34 @@
     <servlet-name>Ex02_GetSession</servlet-name>
     <url-pattern>/Ex02_GetSession</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Ex03_SetCookie</display-name>
+    <servlet-name>Ex03_SetCookie</servlet-name>
+    <servlet-class>ch09_cookie_session.Ex03_SetCookie</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Ex03_SetCookie</servlet-name>
+    <url-pattern>/Ex03_SetCookie</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Ex04</display-name>
+    <servlet-name>Ex04</servlet-name>
+    <servlet-class>ch09_cookie_session.Ex04</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Ex04</servlet-name>
+    <url-pattern>/Ex04</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserController</display-name>
+    <servlet-name>UserController</servlet-name>
+    <servlet-class>ch09_cookie_session.user.UserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserController</servlet-name>
+    <url-pattern>/UserController</url-pattern>
+  </servlet-mapping>
 </web-app>
