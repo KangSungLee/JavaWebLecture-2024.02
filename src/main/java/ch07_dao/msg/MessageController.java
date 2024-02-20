@@ -37,7 +37,8 @@ public class MessageController extends HttpServlet {
 		switch (action) {
 		case "list":
 			List<Message> list = mDao.getMessageList();
-			rd = request.getRequestDispatcher("/ch07/msg/list.jsp");
+//			rd = request.getRequestDispatcher("/ch07/msg/list.jsp");
+			rd = request.getRequestDispatcher("/ch07/msg/listBS.jsp");
 			request.setAttribute("list", list);
 			rd.forward(request, response);
 			break;
@@ -52,7 +53,8 @@ public class MessageController extends HttpServlet {
 			break;
 		case "insert":
 			if (method.equals("GET")) {
-				rd = request.getRequestDispatcher("/ch07/msg/insert.jsp");
+//				rd = request.getRequestDispatcher("/ch07/msg/insert.jsp");
+				rd = request.getRequestDispatcher("/ch07/msg/insertBS.jsp");
 				rd.forward(request, response);
 			} else {
 				content = request.getParameter("content");

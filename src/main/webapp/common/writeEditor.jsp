@@ -1,61 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-	<%@ include file="_head.jspf" %>
-	<%-- head.jspf에 없는 내용 --%>
-	<style>			
-   		td {text-align: center;}
-  	</style>
-  	<script>
-  		window.onload = function(){
-	    	CKEDITOR.replace('content', { heigt: 450});
-	   	}
-	</script>
-</head>
-<body>
-	<%@ include file="_top.jspf" %>
-	
-	<div class="container" style="margin-top:80px">
-    <div class="row">
-      <%@ include file="_aside.jspf" %>
-      
-      <!-- 본문 영역 - 매 페이지마다 바뀌는 부분 -->
-      <div class="col-9">
-        <h3><strong>글 쓰기</strong></h3>
-        <hr>
-        <div class="row">
-          <div class="col-1"></div>
-          <div class="col-10">
-            <form action="/board/write" method="post" enctype="multipart/form-data">
-              <table class="table table-borderedless">
-                <tr>
-                  <td><label class="col-form-label">제목</label></td>
-                  <td><input type="text" name="title" class="form-control"></td>
-                </tr>
-                <tr>
-                  <td><label class="col-form-label">본문</label></td>
-                  <td><textarea name="Content" id="content" rows="10" class="form-control">
-                    이 영역이 CK Editor가 작동하는 영역입니다.
-                  </textarea></td>
-                </tr>
-                <tr>
-                  <td><label class="col-form-label">첨부</label></td>
-                  <td><input type="file" name="file" class="form-control" multiple></td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <button type="submit" class="btn btn-primary">제출</button>
-                    <button type="reset" class="btn btn-secondary">취소</button>
-                  </td>
-                </tr>
-              </table>
-            </form>
-          </div>
-          <div class="col-1"></div>
-        </div>
-      </div>
-      
-      <%@ include file="_bottom.jspf" %>
-</body>
-</html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <a class="navbar-brand mx-5" href="#"><img src="/jw/img/ck-logo.png" height="36"></a>
+        <li class="nav-item ms-3">
+          <a class="nav-link" href="/jw/ch07/msg/list"><i class="far fa-list-alt"></i> 게시판</a>
+        </li>
+        <li class="nav-item ms-3">
+          <a class="nav-link" href="/jw/ch09/user/list"><i class="fas fa-user-friends"></i> 사용자</a>
+        </li>
+        <li class="nav-item dropdown ms-3">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-brain"></i> 드롭다운 메뉴
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Link 1</a></li>
+            <li><a class="dropdown-item" href="#">Link 2</a></li>
+            <li><a class="dropdown-item" href="#">Link 3</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Another link</a></li>
+          </ul>
+        </li>
+        
+        <li class="nav-item ms-3">
+        <c:if test="${empty sessUid}">
+       		<a class="nav-link" href="/jw/ch09/user/login">
+       		<i class="fas fa-sign-out-alt"></i> 로그인</a>
+        </c:if>
+        <c:if test="${not empty sessUid}">
+        	<a class="nav-link" href="/jw/ch09/user/logout">
+        	<i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+        </c:if>
+        </li>
+      </ul>
+      <c:if test="${not empty sessUid}">
+      <span class="navbar-text me-3">${sessUname}님 환영합니다.</span>
+      </c:if>
+    </div>
+  </nav>
