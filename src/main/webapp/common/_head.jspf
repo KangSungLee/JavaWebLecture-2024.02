@@ -12,8 +12,3 @@
     * {font-family: 'Noto Sans KR', sans-serif;}
     a {text-decoration: none;}
   </style>
-  <script>
-    window.onload = function(){
-      CKEDITOR.replace('content', { heigt: 450});
-    }
-  </script>
