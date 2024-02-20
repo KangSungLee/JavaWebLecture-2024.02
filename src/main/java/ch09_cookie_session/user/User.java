@@ -24,6 +24,11 @@ public class User {
 		this.regDate = regDate;
 		this.isDeleted = isDeleted;
 	}
+	
+	public User(String uid) {
+		super();
+		this.uid = uid;
+	}
 	@Override
 	public String toString() {
 		return "User [uid=" + uid + ", uname=" + uname + ", email=" + email + ", regDate=" + regDate
