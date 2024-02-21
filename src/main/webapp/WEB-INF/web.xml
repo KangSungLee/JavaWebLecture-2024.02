@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" version="6.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" version="6.0">
   <servlet>
     <description></description>
     <display-name>Ex01_FirstServlet</display-name>
@@ -217,5 +217,35 @@
   <servlet-mapping>
     <servlet-name>FilterTest</servlet-name>
     <url-pattern>/FilterTest</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Ex02_builtinObject</display-name>
+    <servlet-name>Ex02_builtinObject</servlet-name>
+    <servlet-class>ch14_el_jstl.Ex02_builtinObject</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Ex02_builtinObject</servlet-name>
+    <url-pattern>/Ex02_builtinObject</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Ex03_Collections</display-name>
+    <servlet-name>Ex03_Collections</servlet-name>
+    <servlet-class>ch14_el_jstl.Ex03_Collections</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Ex03_Collections</servlet-name>
+    <url-pattern>/Ex03_Collections</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Ex04_Pojo</display-name>
+    <servlet-name>Ex04_Pojo</servlet-name>
+    <servlet-class>ch14_el_jstl.Ex04_Pojo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Ex04_Pojo</servlet-name>
+    <url-pattern>/Ex04_Pojo</url-pattern>
   </servlet-mapping>
 </web-app>
