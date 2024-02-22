@@ -258,4 +258,14 @@
     <servlet-name>Ex11_Core</servlet-name>
     <url-pattern>/Ex11_Core</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardController</display-name>
+    <servlet-name>BoardController</servlet-name>
+    <servlet-class>project.controller.BoardController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardController</servlet-name>
+    <url-pattern>/BoardController</url-pattern>
+  </servlet-mapping>
 </web-app>
