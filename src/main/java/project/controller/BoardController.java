@@ -30,26 +30,26 @@ public class BoardController extends HttpServlet {
 		String method = request.getMethod();
 		HttpSession session = request.getSession();
 		RequestDispatcher rd = null;
-		String title = "", content = "", sessUid = "";
+		String title = "", content = "", sessUid = "", field = "", query = "", page_ = "";
 		Board board = null;
-		int bid = 0;
+		int bid = 0, page = 0;
 		
 		switch(action) {
 		case "list":		// /jw/bbs/board/list?p=1&f=title&q=검색
-			String page_ = request.getParameter("p");
-			String field = request.getParameter("f");
-			String query = request.getParameter("q");
-			int page = (page_ == null || page_.equals("")) ? 1 : Integer.parseInt(page_);
+			page_ = request.getParameter("p");
+			field = request.getParameter("f");
+			query = request.getParameter("q");
+			page = (page_ == null || page_.equals("")) ? 1 : Integer.parseInt(page_);
 			field = (field == null || field.equals("")) ? "title" : field;
 			query = (query == null || query.equals("")) ? "" : query;
 			session.setAttribute("currentBoardPage", page);
-			request.setAttribute("field", field);
-			request.setAttribute("query", query);
+			session.setAttribute("field", field);
+			session.setAttribute("query", query);
 			List<Board> boardList = bSvc.getBoardList(page, field, query);
-			request.setAttribute("boardList", boardList);
+			request.setAttribute("boardList", boardList); 
 			
 			// for pagination
-			int totalItems = bSvc.getBoardCount();
+			int totalItems = bSvc.getBoardCount(field, query);
 			int totalPages = (int)Math.ceil(totalItems * 1.0 / bSvc.COUNT_PER_PAGE);
 			List<String> pageList = new ArrayList<String>();
 			for (int i = 1; i <= totalPages; i++) {
@@ -92,7 +92,15 @@ public class BoardController extends HttpServlet {
 			rd = request.getRequestDispatcher("/WEB-INF/view/board/detail.jsp");
 			rd.forward(request, response);
 			break;
-			
+		
+		case "delete":
+			bid = Integer.parseInt(request.getParameter("bid"));
+			bSvc.deleteBoard(bid);
+			page = (Integer) session.getAttribute("currentBoardPage");
+			field = (String) session.getAttribute("field");
+			query = (String) session.getAttribute("query");
+			response.sendRedirect("/jw/bbs/board/list?p=" + page + "&f=" + field + "&q=" + query);
+			break;
 		}
 	}
 
