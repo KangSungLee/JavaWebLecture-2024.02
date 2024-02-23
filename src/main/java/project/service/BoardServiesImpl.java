@@ -33,7 +33,7 @@ public class BoardServiesImpl implements BoardServies {
 
 	@Override
 	public void updateBoard(Board board) {
-		// TODO Auto-generated method stub
+		bDao.updateBoard(board);
 		
 	}
 

@@ -30,6 +30,13 @@ public class Board {
 		this.content = content;
 		this.uid = uid;
 	}
+	
+	public Board(int bid, String title, String content) {
+		this.bid = bid;
+		this.title = title;
+		this.content = content;
+	}
+
 	// 게시글 목록 조회시 필요한 생성자
 	public Board(int bid, String title, LocalDateTime modTime, int viewCount, int replyCount, String uname) {
 		this.bid = bid;

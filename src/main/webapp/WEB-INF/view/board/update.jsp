@@ -24,19 +24,21 @@
 		        <div class="row">
 		        	<div class="col-1"></div>
 		        	<div class="col-10">
-		        		<form action="/jw/bbs/board/insert" method="post">
-		        			 <table class="table table-borderless">
+		        		<form action="/jw/bbs/board/update" method="post">
+		        			<input type="hidden" name="bid" value="${board.bid}">
+		        			<input type="hidden" name="uid" value="${board.uid}">
+		        			<table class="table table-borderless">
 				                <tr>
 				                	<td style="width: 10%;"><label class="col-form-label">제목</label></td>
-				                	<td style="width: 90%;"><input type="text" name="title" class="form-control"></td>
+				                	<td style="width: 90%;"><input type="text" name="title" value="${board.title}" class="form-control"></td>
 				                </tr>
 				                <tr>
 				                	<td><label class="col-form-label">내용</label></td>
-				                	<td><textarea class="form-control" rows="10" name ="content" ></textarea></td>
+				                	<td><textarea class="form-control" rows="10" name ="content">${board.content}</textarea></td>
 				                </tr>
 				                <tr>
 				                	<td colspan="2">
-					                    <button class="btn btn-primary" type="submit">확인</button>
+					                    <button class="btn btn-primary" type="submit">수정</button>
 					                    <button class="btn btn-secondary" type="reset">취소</button>
 				                	</td>
 				                </tr>
