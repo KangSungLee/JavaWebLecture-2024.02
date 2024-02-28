@@ -21,6 +21,16 @@ public class AuctionsServiceImpl implements AuctionsService {
 		List<Auctions> list = aDao.getAuctionsList(COUNT_PER_PAGE, offset);
 		return list;
 	}
+
+	@Override
+	public Auctions getAuctions(int auction_id) {
+		return aDao.getAuctions(auction_id);
+	}
+
+	@Override
+	public void auctionParticipation(Auctions auctions) {
+		aDao.auctionParticipation(auctions);
+	}
 	
 	
 }

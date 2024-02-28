@@ -13,6 +13,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import project.entity.Board;
 import project.entity.User;
 
 public class AuctionsDao {
@@ -34,7 +35,7 @@ public class AuctionsDao {
 		String sql = "insert auctions values (default, ?, ?, ?, ?, '" + modTime  + "', ?, default)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, auctions.getEquipment_id());
+			pstmt.setString(1, auctions.getUser_id());
 			pstmt.setString(2, auctions.getTitle());
 			pstmt.setInt(3, auctions.getStart_price());
 			pstmt.setInt(4, auctions.getStart_price());
@@ -46,7 +47,7 @@ public class AuctionsDao {
 			e.printStackTrace();
 		}
 	}
-	//
+
 	public int getAuctionsCount() {
 		Connection conn = getConnection();
 		String sql = "select count(auction_id) from auctions";
@@ -88,4 +89,40 @@ public class AuctionsDao {
 		return list;
 	}
 	
+	public Auctions getAuctions(int auction_id) {
+		Connection conn = getConnection();
+		String sql = "SELECT * FROM auctions WHERE auction_id=?";
+		Auctions auctions = null;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, auction_id);
+
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				auctions = new Auctions(rs.getInt(1), rs.getString(2), rs.getString(3), 
+						rs.getInt(4), rs.getInt(5), LocalDateTime.parse(rs.getString(6).replace(" ", "T")),
+						rs.getString(7), rs.getString(8));
+			}
+			rs.close(); pstmt.close(); conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return auctions;
+	}
+	
+	public void auctionParticipation(Auctions auctions) {
+		Connection conn = getConnection();
+		String sql = "update auctions set current_price=?, seller_id=? where auction_id=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, auctions.getCurrent_price());
+			pstmt.setString(2, auctions.getSeller_id());
+			pstmt.setInt(3, auctions.getAuction_id());
+
+			pstmt.executeUpdate();
+			pstmt.close();conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -1,12 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://kit.fontawesome.com/1072b7cb5b.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script>
 	function twoDigit(num) {
         return (num < 10) ? '0' + num : String(num);          
@@ -27,16 +33,18 @@
     
                 const timeDifference = new Date(targetDateTime).getTime() - now.getTime();
                 let timeStr = '';
-    
-                if (timeDifference > 0) {
-                    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-    
+                    
+                const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+                
+                if (days == 0 && timeDifference > 0) {
+                	timeStr = twoDigit(hours) + ':' + twoDigit(minutes) + ':' + twoDigit(seconds);
+                } else if(timeDifference > 0){
                     timeStr = days + '일' + twoDigit(hours) + ':' + twoDigit(minutes) + ':' + twoDigit(seconds);
                 } else {
-                    timeStr = '지정된 시간이 이미 지났습니다.';
+                	timeStr = '경매 종료';
                 }
     
                 modTime.innerHTML = timeStr;
@@ -46,6 +54,7 @@
     </script>
 </head>
 <body>
+	<span style="font-size: 16px"><a href="/jw/mini/aInsert"><i class="fa-solid fa-pen-to-square me-1"></i>글 쓰기</a></span>
 	<table class="table" border="1" style="width: 800px">
 		<tr>
 			<th style="width: 8%">번호</th>
@@ -62,10 +71,22 @@
 			<td>
 				<a href="/jw/mini/aDetail?auction_id=${auctions.auction_id}">${auctions.title}</a>
 			</td>
-			<td>${auctions.current_price}</td>
-			<td>${auctions.equipment_id}</td>
+			<td>
+				<fmt:formatNumber value="${auctions.current_price}" type="number" pattern="#,##0	"></fmt:formatNumber>
+			</td>
+			<td>${auctions.user_id}</td>
 		</tr>
 		</c:forEach>
 	</table>
+		<%-- pagination --%>
+	<ul class="pagination justify-content-center mt-4">
+		<li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-less-than"></i></a></li>
+		<c:forEach var="page" items="${pageList}">
+		<li class="page-item ${currentBoardPage eq page ? 'active' : ''}">
+			<a class="page-link" href="/jw/mini/aList?p=${page}">${page}</a>
+		</li>
+		</c:forEach>
+		<li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-greater-than"></i></a></li>
+	</ul> 
 </body>
 </html>

@@ -10,12 +10,14 @@ import jakarta.servlet.http.HttpSession;
 import project.entity.Board;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet({"/mini/aDetail", "/mini/aInsert", "/mini/aList"})
+@WebServlet({"/mini/aDetail", "/mini/aInsert", "/mini/aList", "/mini/auctions"})
 
 public class ReverseAuction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,8 +29,8 @@ public class ReverseAuction extends HttpServlet {
 	      String method = request.getMethod();
 	      HttpSession session = request.getSession();
 	      RequestDispatcher rd = null;
-	      String title = "", start_price_ = "", content = "", equipment_id = "", page_ = "";
-	      int start_price = 0, page = 0;
+	      String title = "", start_price_ = "", content = "", user_id = "", page_ = "", current_price_ = "", seller_id = "";
+	      int start_price = 0, page = 0, auction_id = 0, current_price = 0;
 	      Auctions auctions = null;
 	      
 	      request.setCharacterEncoding("UTF-8");
@@ -58,25 +60,48 @@ public class ReverseAuction extends HttpServlet {
 				rd = request.getRequestDispatcher("/mini/aInsert.jsp");
 				rd.forward(request, response);
 	    	 } else {
-	    		equipment_id = request.getParameter("equipment_id");
+	    		user_id = request.getParameter("user_id");
 				title = request.getParameter("title");
 				start_price_ = request.getParameter("start_price");
 				start_price = (start_price_ == null || start_price_.equals("")) ? 0 : Integer.parseInt(start_price_);
 				content = request.getParameter("content");
-				auctions = new Auctions(equipment_id, title, start_price, content);
+				auctions = new Auctions(user_id, title, start_price, content);
 				aSvc.insertAuctions(auctions);
 				
-				response.sendRedirect("/jw/mini/aList.jsp");
+				response.sendRedirect("/jw/mini/aList?p=1");
 	    	 }
+	    	 break;
 	      // 역경매 디테일
 	      case "aDetail":
-	         if (method.equals("GET")) {
-//				rd = request.getRequestDispatcher("/mini/aDetail.jsp");
-//				rd.forward(request, response);
-	         } else {
-	            
-	         }
-	         break;
+				auction_id = Integer.parseInt(request.getParameter("auction_id"));
+				auctions = aSvc.getAuctions(auction_id);
+				int discount = auctions.getStart_price() - auctions.getCurrent_price();
+				request.setAttribute("auctions", auctions);
+				request.setAttribute("discount", discount);
+				
+				String now = LocalDateTime.now().toString().substring(0, 19);
+				LocalDateTime startDate = LocalDateTime.parse(now, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		        LocalDateTime endDate = LocalDateTime.parse(auctions.getEnd_time().toString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		        Duration duration = Duration.between(startDate, endDate);
+		        long seconds = duration.getSeconds();
+		        int secondsInt = (int) seconds;
+				request.setAttribute("secondsInt", secondsInt);
+				
+				rd = request.getRequestDispatcher("/mini/aDetail.jsp");
+				rd.forward(request, response);
+				break;
+		  // 경매 참여
+	      case "auctions":
+	    	  	auction_id = Integer.parseInt(request.getParameter("auction_id"));
+	    	  	current_price_ = request.getParameter("current_price");
+	    	  	current_price = (current_price_ == null || current_price_.equals("")) ? 1 : Integer.parseInt(current_price_);
+	    	  	seller_id = request.getParameter("seller_id");
+	    	  	auctions = new Auctions(auction_id, current_price, seller_id);
+	    	  	aSvc.auctionParticipation(auctions);
+	    	  	
+	    	  	response.sendRedirect("/jw/mini/aList?p=1");
+	    	  	break;
 	        }
+	     
 	   }
 	}
