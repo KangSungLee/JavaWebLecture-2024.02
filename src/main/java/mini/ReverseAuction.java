@@ -32,6 +32,7 @@ public class ReverseAuction extends HttpServlet {
 	      String title = "", start_price_ = "", content = "", user_id = "", page_ = "", current_price_ = "", seller_id = "";
 	      int start_price = 0, page = 0, auction_id = 0, current_price = 0;
 	      Auctions auctions = null;
+	      String sessuser_id = (String) session.getAttribute("sessuser_id");
 	      
 	      request.setCharacterEncoding("UTF-8");
 	      response.setContentType("text/html; charset=utf-8");
@@ -56,16 +57,21 @@ public class ReverseAuction extends HttpServlet {
 				
 	      // 역경매 Insert
 	      case "aInsert":
+	    	  if(sessuser_id == null || sessuser_id.equals("")) {
+					response.sendRedirect("/jw/auctiondb/user/login");
+					break;
+				} 
 	    	 if(method.equals("GET")) {
 				rd = request.getRequestDispatcher("/mini/aInsert.jsp");
 				rd.forward(request, response);
 	    	 } else {
-	    		user_id = request.getParameter("user_id");
+//	    		user_id = request.getParameter("user_id");
 				title = request.getParameter("title");
 				start_price_ = request.getParameter("start_price");
 				start_price = (start_price_ == null || start_price_.equals("")) ? 0 : Integer.parseInt(start_price_);
 				content = request.getParameter("content");
-				auctions = new Auctions(user_id, title, start_price, content);
+				//					로그인중인 세션아이디
+				auctions = new Auctions(sessuser_id, title, start_price, content);
 				aSvc.insertAuctions(auctions);
 				
 				response.sendRedirect("/jw/mini/aList?p=1");
@@ -95,8 +101,8 @@ public class ReverseAuction extends HttpServlet {
 	    	  	auction_id = Integer.parseInt(request.getParameter("auction_id"));
 	    	  	current_price_ = request.getParameter("current_price");
 	    	  	current_price = (current_price_ == null || current_price_.equals("")) ? 1 : Integer.parseInt(current_price_);
-	    	  	seller_id = request.getParameter("seller_id");
-	    	  	auctions = new Auctions(auction_id, current_price, seller_id);
+//	    	  	seller_id = request.getParameter("seller_id");		현재 로그인중인 세션id로
+	    	  	auctions = new Auctions(auction_id, current_price, sessuser_id);
 	    	  	aSvc.auctionParticipation(auctions);
 	    	  	
 	    	  	response.sendRedirect("/jw/mini/aList?p=1");

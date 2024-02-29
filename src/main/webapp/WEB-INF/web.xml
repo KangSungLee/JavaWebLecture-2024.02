@@ -298,4 +298,14 @@
     <servlet-name>ProductController</servlet-name>
     <url-pattern>/ProductController</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserController1</display-name>
+    <servlet-name>UserController1</servlet-name>
+    <servlet-class>mini.UserController1</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserController1</servlet-name>
+    <url-pattern>/UserController1</url-pattern>
+  </servlet-mapping>
 </web-app>

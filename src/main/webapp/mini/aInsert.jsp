@@ -12,8 +12,8 @@
     <div>
 	    <form action="/jw/mini/aInsert" method="post">
 	    	<table>
-		    <%--	<input type="hidden" name="equipment_id" value="${sessUid}">  --%>
-		    	<input type="hidden" name="user_id" value="james">
+			 <%--		<input type="hidden" name="user_id" value="${sessuser_id}"> --%>
+		     <%--		<input type="hidden" name="user_id" value="james"> --%>
 		    		<tr>
 		    			<td>구매물품</td>
 		    			<td><input type="text" name="title" placeholder="제목"></td>

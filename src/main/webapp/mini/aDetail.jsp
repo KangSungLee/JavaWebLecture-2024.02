@@ -72,12 +72,6 @@
 				<h3>
 					<span style="font-size:16px">
 						<a href="/jw/mini/aList"><i class="fa-solid fa-table-list"></i>목록</a>
-						<c:if test="${sessUid eq auctions.auction_id or sessUid eq 'admin'}">	<!-- 본인만 수정/삭제 가능 -->
-							<a href="javascript:deleteFunc('${board.bid}')"><i class="fa-solid fa-trash ms-3"></i> 삭제</a>
-						</c:if>
-						<c:if test="${sessUid ne auctions.auction_id}">	
-							<a href="#" class="disabled-link"><i class="fa-solid fa-trash ms-3"></i> 삭제</a>
-						</c:if>
 					</span>
 				</h3>
 			</div>
@@ -110,27 +104,30 @@
 						<td><fmt:formatNumber value="${discount}" type="number" pattern="#,##0"></fmt:formatNumber></td>
 	                </tr>
 	                <c:if test="${secondsInt > 0}">
-		                <form action="/jw/mini/auctions" method="post">
-			                <tr>
-								<td><label class="col-form-label">제시 금액</label></td>
-								<td><input type="text" class="form-control" id="aPrice"></td>
-			                </tr>
-			                <tr>
-			                	<td>
-			                <%--	<input type="text" name="seller_id" value="${sessUid}">  --%>
-			                		<input type="text" name="seller_id" value="maria">
-			                	</td>
-				                <td colspan="1">
-				              		<a href="javascript:openAuctionsModal()"><i class="fa-solid fa-trash ms-3"></i> 경매</a>
-				                </td>
-			                </tr>
-						</form>
-						</c:if>
-						<c:if test="${secondsInt < 0}">
-							<tr>
-								<td colspan="2"><h2>경매가 종료 되었습니다</h2></td>
-							</tr>
-						</c:if>
+		                <tr>
+							<td><label class="col-form-label">제시 금액</label></td>
+							<td><input type="text" class="form-control" id="aPrice"></td>
+		                </tr>
+		                <tr>
+		                	<td>
+		                <%--	<input type="text" name="seller_id" value="${sessuser_id}">  --%>
+		                <%--	<input type="text" name="seller_id" value="maria">  --%>
+		                	</td>
+			                <td colspan="1">
+			                <c:if test="${sessuser_id ne auctions.user_id}">
+			              		<a href="javascript:openAuctionsModal()">경매</a>
+			              	</c:if>
+			              	<c:if test="${sessuser_id eq auctions.user_id or sessuser_id eq 'admin'}">
+			              		<a href="#">경매</a>
+			              	</c:if>
+			                </td>
+		                </tr>
+					</c:if>
+					<c:if test="${secondsInt < 0}">
+						<tr>
+							<td colspan="2"><h2>경매가 종료 되었습니다</h2></td>
+						</tr>
+					</c:if>
             	</table>
 			</div>
 			<div class="col-1"></div>
@@ -160,10 +157,10 @@
 					<strong>경매에 참여하시겠습니까?</strong>
 					<div class="text-center mt-5">
 						<form action="/jw/mini/auctions" method="post">
-				<%-- 		<input type="text" name="seller_id" value="${sessUid}">  --%>
-							<input type="text" name="seller_id" value="maria">
+				<%-- 		<input type="text" name="seller_id" value="${sessuser_id}">  --%>
+				<%-- 		<input type="text" name="seller_id" value="maria">   --%>
 							<input type="hidden" id="current_price" name="current_price">
-							<input type="text" name="auction_id" value="${auctions.auction_id}">
+				<%--		<input type="hidden" name="auction_id" value="${auctions.auction_id}"> --%>
 							<button class="btn btn-danger" type="submit">확인</button>
 						</form>
 					</div>
