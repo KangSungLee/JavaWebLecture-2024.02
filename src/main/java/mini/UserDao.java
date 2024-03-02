@@ -38,7 +38,7 @@ public class UserDao {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-								rs.getString(5),LocalDateTime.parse(rs.getString(6).replace(" ", "T")), rs.getInt(6));
+								rs.getString(5),LocalDateTime.parse(rs.getString(6).replace(" ", "T")), rs.getInt(7));
 			}
 			rs.close(); pstmt.close(); conn.close();
 		} catch (Exception e) {
@@ -60,7 +60,7 @@ public class UserDao {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				User user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-						rs.getString(5),LocalDate.parse(rs.getString(6)),0);
+						rs.getString(5),LocalDateTime.parse(rs.getString(6).replace(" ", "T")),rs.getInt(7));
 				list.add(user);
 			}
 			rs.close(); pstmt.close(); conn.close();

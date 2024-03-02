@@ -7,9 +7,9 @@
 	<title>Insert title here</title>
 </head>
 <body style="margin: 50px">
-	<h1>상품 입력</h1>
+	<h1>상품 입력(정사각형 이미지)</h1>
 	<hr>
-	<form action="/jw/bbs/product/insert" method="post" enctype="multipart/form-data">
+	<form action="/jw/bbs/product/squareInsert" method="post" enctype="multipart/form-data">
 		<select name="category">
 			<option value="스키" selected>스키</option>
 			<option value="보드">보드</option>

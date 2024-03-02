@@ -32,7 +32,7 @@ public class AuctionsDao {
 	public void insertAuctions(Auctions auctions) {
 		Connection conn = getConnection();
 		String modTime = LocalDateTime.now().plusDays(3).toString().substring(0, 19).replace(" ", "T");
-		String sql = "insert auctions values (default, ?, ?, ?, ?, '" + modTime  + "', ?, default)";
+		String sql = "insert auctions values (default, ?, ?, ?, ?, '" + modTime  + "', ?, default, ?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, auctions.getUser_id());
@@ -40,6 +40,7 @@ public class AuctionsDao {
 			pstmt.setInt(3, auctions.getStart_price());
 			pstmt.setInt(4, auctions.getStart_price());
 			pstmt.setString(5, auctions.getContent());
+			pstmt.setString(6, auctions.getPimage());
 			
 			pstmt.executeUpdate();
 			pstmt.close();conn.close();
@@ -79,7 +80,7 @@ public class AuctionsDao {
 			while (rs.next()) {
 				Auctions auctions = new Auctions(rs.getInt(1), rs.getString(2), rs.getString(3), 
 						rs.getInt(4), rs.getInt(5), LocalDateTime.parse(rs.getString(6).replace(" ", "T")),
-						rs.getString(7), rs.getString(8));
+						rs.getString(7), rs.getString(8), rs.getString(9));
 				list.add(auctions);
 			}
 			rs.close(); pstmt.close();conn.close();
@@ -101,7 +102,7 @@ public class AuctionsDao {
 			while (rs.next()) {
 				auctions = new Auctions(rs.getInt(1), rs.getString(2), rs.getString(3), 
 						rs.getInt(4), rs.getInt(5), LocalDateTime.parse(rs.getString(6).replace(" ", "T")),
-						rs.getString(7), rs.getString(8));
+						rs.getString(7), rs.getString(8), rs.getString(9));
 			}
 			rs.close(); pstmt.close(); conn.close();
 		} catch (Exception e) {

@@ -2,14 +2,19 @@ package mini;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import project.entity.Board;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,11 +22,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet({"/mini/aDetail", "/mini/aInsert", "/mini/aList", "/mini/auctions"})
-
+@WebServlet({"/mini/aDetail", "/mini/aInsert", "/mini/aList", "/mini/auctions", "/mini/view"})
+@MultipartConfig(
+		fileSizeThreshold = 1 * 1024 * 1024,			// 1 MB
+		maxFileSize = 10 * 1024 * 1024,					// 10 MB
+		maxRequestSize = 10 * 1024 * 1024
+	)
 public class ReverseAuction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AuctionsService aSvc = new AuctionsServiceImpl();
+	public static final String UPLOAD_PATH = "c:/Temp/upload/mini";
     
 	   protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	      String[] uri = request.getRequestURI().split("/");
@@ -70,8 +80,18 @@ public class ReverseAuction extends HttpServlet {
 				start_price_ = request.getParameter("start_price");
 				start_price = (start_price_ == null || start_price_.equals("")) ? 0 : Integer.parseInt(start_price_);
 				content = request.getParameter("content");
+				//
+				Part filePart = request.getPart("imgFile");
+				String filename = filePart.getSubmittedFileName();
+				String[] ext = filename.split("\\.");
+				String extension = ext[ext.length - 1];
+				String fname = "item" + System.currentTimeMillis() + "." + extension;
+				String path = UPLOAD_PATH + "/" + fname;
+				filePart.write(path);
+				//
+				
 				//					로그인중인 세션아이디
-				auctions = new Auctions(sessuser_id, title, start_price, content);
+				auctions = new Auctions(sessuser_id, title, start_price, content, fname);
 				aSvc.insertAuctions(auctions);
 				
 				response.sendRedirect("/jw/mini/aList?p=1");
@@ -105,9 +125,28 @@ public class ReverseAuction extends HttpServlet {
 	    	  	auctions = new Auctions(auction_id, current_price, sessuser_id);
 	    	  	aSvc.auctionParticipation(auctions);
 	    	  	
-	    	  	response.sendRedirect("/jw/mini/aList?p=1");
+	    	  	response.sendRedirect("/jw/mini/aDetail?auction_id=" + auction_id);
 	    	  	break;
-	        }
-	     
+	      
+	      case "view":
+				byte[] buffer = new byte[8*1024];		// 8 KB buffer
+				String fname = request.getParameter("filename");
+				String path = UPLOAD_PATH + "/" + fname;
+				OutputStream os = response.getOutputStream();
+				response.setContentType("text/html; charset=utf-8");
+				response.setHeader("Cache-Control", "no-cache");
+				response.setHeader("Content-disposition", "attachment; fileName=" +
+									URLEncoder.encode(fname, "utf-8"));
+				
+				FileInputStream fis = new FileInputStream(path);
+				while (true) {
+					int count = fis.read(buffer);
+					if (count == -1)
+						break;
+					os.write(buffer, 0, count);
+				}
+				fis.close(); os.close();
+				break;
+			}
 	   }
 	}

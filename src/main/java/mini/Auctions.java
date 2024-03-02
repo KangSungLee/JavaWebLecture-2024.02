@@ -11,12 +11,13 @@ public class Auctions {
 	private LocalDateTime end_time;
 	private String content ;
 	private String seller_id;
+	private String pimage;
 	
 	// 기본 생성자
 	public Auctions() { }
 	// 전체 생성자
 	public Auctions(int auction_id, String user_id, String title, int start_price, int current_price,
-			LocalDateTime end_time, String content, String seller_id) {
+			LocalDateTime end_time, String content, String seller_id, String pimage) {
 		this.auction_id = auction_id;
 		this.user_id = user_id;
 		this.title = title;
@@ -25,13 +26,15 @@ public class Auctions {
 		this.end_time = end_time;
 		this.content = content;
 		this.seller_id = seller_id;
+		this.pimage = pimage;
 	}
 	// 경매 게시물 작성
-	public Auctions(String user_id, String title, int start_price, String content) {
+	public Auctions(String user_id, String title, int start_price, String content, String pimage) {
 		this.user_id = user_id;
 		this.title = title;
 		this.start_price = start_price;
 		this.content = content;
+		this.pimage = pimage;
 	}
 	// 경매 참여
 	public Auctions(int auction_id, int current_price, String seller_id) {
@@ -94,5 +97,11 @@ public class Auctions {
 	}
 	public void setSeller_id(String seller_id) {
 		this.seller_id = seller_id;
+	}
+	public String getPimage() {
+		return pimage;
+	}
+	public void setPimage(String pimage) {
+		this.pimage = pimage;
 	}
 }

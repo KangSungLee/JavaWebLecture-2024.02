@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import project.entity.Product;
+import project.service.ImageUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,8 +25,8 @@ import java.net.URLEncoder;
 )
 public class ProductController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String UPLOAD_PATH = "c:/Temp/upload/bbs" ;
-
+	public static final String UPLOAD_PATH = "c:/Temp/upload/bbs";
+       
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String[] uri = request.getRequestURI().split("/");
 		String action = uri[uri.length - 1];
@@ -34,7 +35,7 @@ public class ProductController extends HttpServlet {
 		RequestDispatcher rd = null;
 		
 		switch(action) {
-		case "insert" :
+		case "insert":
 			if (method.equals("GET")) {
 				rd = request.getRequestDispatcher("/WEB-INF/view/product/insert.jsp");
 				rd.forward(request, response);
@@ -43,29 +44,50 @@ public class ProductController extends HttpServlet {
 				String pname = request.getParameter("pname");
 				String price_ = request.getParameter("price");
 				int price = Integer.parseInt(price_);
-				String dectiption = request.getParameter("dectiption");
+				String description = request.getParameter("description");
 				
-				Part filePart = request.getPart("imgFile");			// 파일값 받아오기
-				String filenaem = filePart.getSubmittedFileName();	// 파일 이름 추출
-				
-				// 스키.jpg --> category + 현재날짜 .jpg
-				// jsp만 뽑기
-				String[] ext = filenaem.split("\\.");
+				Part filePart = request.getPart("imgFile");
+				String filename = filePart.getSubmittedFileName();
+				String[] ext = filename.split("\\.");
 				String extension = ext[ext.length - 1];
-				//			  카테고리명		 현재시간 				.	파일명(jsp)
 				String fname = category + System.currentTimeMillis() + "." + extension;
-				//				위치			
 				String path = UPLOAD_PATH + "/" + fname;
 				filePart.write(path);
 				
-				Product product = new Product(category, pname, price, dectiption, fname);
+				Product product = new Product(category, pname, price, description, fname);
 				rd = request.getRequestDispatcher("/WEB-INF/view/product/detail.jsp");
 				request.setAttribute("product", product);
 				rd.forward(request, response);
 			}
 			break;
 		
-		case "view" : 
+		case "squareInsert":
+			if (method.equals("GET")) {
+				rd = request.getRequestDispatcher("/WEB-INF/view/product/squareInsert.jsp");
+				rd.forward(request, response);
+			} else {
+				String category = request.getParameter("category");
+				String pname = request.getParameter("pname");
+				String price_ = request.getParameter("price");
+				int price = Integer.parseInt(price_);
+				String description = request.getParameter("description");
+				
+				Part filePart = request.getPart("imgFile");
+				String filename = filePart.getSubmittedFileName();
+				String path = UPLOAD_PATH + "/" + filename;
+				filePart.write(path);
+				
+				ImageUtil imageUtil = new ImageUtil();
+				String fname = imageUtil.squareImage(category, filename);
+				
+				Product product = new Product(category, pname, price, description, fname);
+				rd = request.getRequestDispatcher("/WEB-INF/view/product/detail.jsp");
+				request.setAttribute("product", product);
+				rd.forward(request, response);
+			}
+			break;
+			
+		case "view":
 			byte[] buffer = new byte[8*1024];		// 8 KB buffer
 			String fname = request.getParameter("filename");
 			String path = UPLOAD_PATH + "/" + fname;

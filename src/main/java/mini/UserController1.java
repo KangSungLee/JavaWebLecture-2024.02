@@ -51,7 +51,7 @@ public class UserController1 extends HttpServlet {
 					msg = "아이디 입력이 잘못되었습니다.";
 					url = "/jw/auctiondb/user/login";
 				}
-				rd = request.getRequestDispatcher("/jw/mini/alertMsg.jsp");
+				rd = request.getRequestDispatcher("/mini/alertMsg.jsp");
 				request.setAttribute("msg", msg);
 				request.setAttribute("url", url);
 				rd.forward(request, response);

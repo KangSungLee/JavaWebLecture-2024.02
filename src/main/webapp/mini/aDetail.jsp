@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>경매</title>
+    <title>역경매 게시글</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -62,23 +62,29 @@
             }
         }
     </script>
+    <style>
+	    img {
+			    width: 350px;
+			    height: auto;
+			}
+    </style>
 </head>
 
 <body style="margin: 50px;">
 	<div class="container">
 		<div class="row">
-			<div class="col-9"></div>
 			<div class="col-3">
-				<h3>
-					<span style="font-size:16px">
-						<a href="/jw/mini/aList"><i class="fa-solid fa-table-list"></i>목록</a>
-					</span>
-				</h3>
+				<a href="/jw/mini/aList" class="btn btn-secondary">
+					<i class="fa-solid fa-table-list me-1"></i> 목록
+				</a>
 			</div>
+			<div class="col-9"></div>
 		</div>
 		<div class="row">
 			<div class="col-1"></div>
-			<div class="col-5"></div>
+			<div class="col-5">
+				<img src="/jw/mini/view?filename=${auctions.pimage}">
+			</div>
 			<div class="col-5">
 			    <input type="hidden" id="modTime" value="${auctions.end_time}">
 			    <table class="table table-borderless">
@@ -115,10 +121,10 @@
 		                	</td>
 			                <td colspan="1">
 			                <c:if test="${sessuser_id ne auctions.user_id}">
-			              		<a href="javascript:openAuctionsModal()">경매</a>
+			              		<a class="btn btn-primary" href="javascript:openAuctionsModal()">경매</a>
 			              	</c:if>
 			              	<c:if test="${sessuser_id eq auctions.user_id or sessuser_id eq 'admin'}">
-			              		<a href="#">경매</a>
+			              		<a class="btn btn-primary" href="#">경매</a>
 			              	</c:if>
 			                </td>
 		                </tr>
@@ -132,9 +138,9 @@
 			</div>
 			<div class="col-1"></div>
 		</div>
-    	<div class="row">
+    	<div class="row mt-5">
     		<div class="col-2"></div>
-    		<div class="col-8">
+    		<div class="col-8 card" style="height: 500px">
     			${auctions.content}
     		</div>    		
     		<div class="col-2"></div>
@@ -160,7 +166,7 @@
 				<%-- 		<input type="text" name="seller_id" value="${sessuser_id}">  --%>
 				<%-- 		<input type="text" name="seller_id" value="maria">   --%>
 							<input type="hidden" id="current_price" name="current_price">
-				<%--		<input type="hidden" name="auction_id" value="${auctions.auction_id}"> --%>
+							<input type="hidden" name="auction_id" value="${auctions.auction_id}">
 							<button class="btn btn-danger" type="submit">확인</button>
 						</form>
 					</div>
