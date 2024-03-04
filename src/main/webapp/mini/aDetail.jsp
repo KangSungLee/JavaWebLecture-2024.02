@@ -167,7 +167,7 @@
 				<%-- 		<input type="text" name="seller_id" value="maria">   --%>
 							<input type="hidden" id="current_price" name="current_price">
 							<input type="hidden" name="auction_id" value="${auctions.auction_id}">
-							<button class="btn btn-danger" type="submit">확인</button>
+							<button class="btn btn-primary" type="submit">확인</button>
 						</form>
 					</div>
 				</div>
